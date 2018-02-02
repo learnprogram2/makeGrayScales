@@ -1,0 +1,102 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	<title>Canvas 滤镜</title>
+	<meta charset="utf-8">
+	<meta name="Canvas practice" content="滤镜">
+
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+
+	<div class="cav">
+		<canvas id="c1" width="500" height="500"></canvas>		
+	</div>
+
+	<script type="text/javascript">
+		var c=document.querySelector("#c1");
+		var ctx=c.getContext("2d");
+
+		var image=new Image();
+		image.src="images/img1.jpg";
+		image.onload=function(){
+			console.log("加载好了");
+			ctx.drawImage(image,0,0,500,500);
+			makeGrayScales();
+		}
+
+		var makePixelGrayScal=function(r,g,b,a){
+			var y=(0.4*r)+(0.4*g)+(0.3*b);
+			return {r:y,g:y,b:y,a:y};
+		}
+		function makeGrayScales(){
+			var r,g,b,a;
+			var imageData=ctx.getImageData(0,0,500,500);
+			var numPexels=imageData.data.length/4;
+			for(var i=0;i<numPexels;i++){
+				//找到每个像素的rgba
+				r=imageData.data[i*4+0];
+				g=imageData.data[i*4+1];
+				b=imageData.data[i*4+2];
+				a=imageData.data[i*4+3];
+				//转化一下每个像素的rgba
+				pixel=makePixelGrayScal(r,g,b,a);
+				// 把转化好的复位
+				imageData.data[i*4+0]=pixel.r;
+				imageData.data[i*4+1]=pixel.g;
+				imageData.data[i*4+2]=pixel.b;
+				imageData.data[i*4+3]=pixel.a;
+			}
+			ctx.putImageData(imageData,0,0);
+		}
+		//把图片变成绿色但为什么只把背景变了???
+		// var data=ctx.getImageData(0,0,500,500);
+		// function paintGreen(imageData){
+		// 	var numPexels=imageData.data.length/4;
+		// 	for(var i=0;i<numPexels;i++){
+		// 		//if (i%10===0) {
+		// 			imageData.data[i*4+1]=255;
+		// 			imageData.data[i*4+3]=255;
+		// 		//}
+		// 	}
+		// 	ctx.putImageData(imageData,0,0);
+		// }
+		// paintGreen(data);
+	</script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>用画布播放视频</title>
+	<meta charset="utf-8">
+
+</head>
+<body>
+	<video id="vid" controls loop src="vid1.mp4"></video>
+	<canvas id="c"></canvas>
+
+	<script type="text/javascript">
+		var canvas=document.querySelector("canvas");
+		var ctx=canvas.getContext("2d");
+
+		document.addEventListener("DOMContentLoaded",function(){
+			var v=document.querySelector("#vid");
+			var canvas=document.querySelector("#c");
+			var ctx=canvas.getContext("2d");
+
+			//设置canvas的高度
+			v.addEventListener("loadedmetadata",function(){
+				canvas.width=this.videoWidth;
+				canvas.height=this.videoHeight;				
+			})
+
+		})
+	</script>
+</body>
+</html>
